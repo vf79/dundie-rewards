@@ -22,7 +22,7 @@ User Stories:
 
 Epic: Administração
 
-- EU como ADMIN quero ser capaz de EXECUTAR O COMANDO dundie load people.txt para alimentar o banco de dados com as informações dos funcionários.
+- Eu como ADMIN quero ser capaz de EXECUTAR O COMANDO dundie load people.txt para alimentar o banco de dados com as informações dos funcionários.
   
   - Para cada funcionário no arquivo caso ainda não exista no banco de dados deverá ser criado com a pontuação inicial de `100` para gerentes e `500` para associados, caso já exista as informações diferentes deverão ser atualizadas e a pontuação somada.
   - O sistema deve evitar entrada de associados em duplicidade, e aceitar apenas e-mails válidos.
@@ -42,3 +42,11 @@ Epic: Administração
   - `dundie show --dept|--to --value=100`  
 
 - Eu como ADMIN quero que as operações de ADMIN sejam protegidas por usuário e senha.
+
+Epic: Movimentação
+
+- Eu como FUNCIONARIO quero ser capaz de visualizar meu saldo de pontos e extrato de movimentações.
+
+- Eu como FUNCIONARIO quero ser capaz de transferir pontos para outro funcionário.
+
+- Eu como FUNCIONARIO quero que as operações sejam protegidas por senha, impedindo que outro usuário altere minha conta.
