@@ -8,6 +8,7 @@ if "%1"=="--install" goto install
 if "%1"=="--install-dev" goto install-dev
 if "%1"=="--install-test" goto install-test
 if "%1"=="--test" goto test
+if "%1"=="--test-ci" goto test-ci
 if "%1"=="--test-debug" goto test-debug
 if "%1"=="--test-run" goto test-run
 if "%1"=="--virtualenv" goto virtualenv
@@ -20,7 +21,7 @@ goto help
     for /r . %%f in (*.pyc) do @if exist "%%f" del "%%f"
     for /d /r . %%d in (__pycache__, *.egg-info, .pytest_cache) do @if exist "%%d" rd /s /q "%%d"
     rd /s /q build
-    goto end
+goto end
 
 :install
     echo "Instalando dependências do projeto..."
@@ -42,6 +43,11 @@ goto end
     ::pytest tests\ -vv --cov=%name%
     pytest -vv -s
     ::coverage html
+goto end
+
+:test-ci
+    echo "Executando testes ci..."
+    pytest -v -m "unit" --junitxml=test_result.xml
 goto end
 
 :test-debug
@@ -74,6 +80,7 @@ goto end
     echo "install-dev - Instala dependências de desenvolvimento"
     echo "install-test - Instala dependências de testes"
     echo "test - Executa testes"
+    echo "test-ci - Executa testes e gera relatório junit.xml"
     echo "test-debug - Executa testes com debub"
     echo "test-run - Executa testes com mark run"
     echo "watch - Executa teste usando pytest-watch"
