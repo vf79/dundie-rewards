@@ -1,4 +1,4 @@
-.PHONY: install virtualenv ipython clean
+.PHONY: install virtualenv ipython lint test watch clean
 
 install:
 	@echo "Installing for dev environment"
@@ -12,6 +12,8 @@ virtualenv:
 ipython:
 	@.venv/bin/ipython
 
+lint:
+	@.venv/bin/pflake8
 
 test:
 	@.venv/bin/pytest -vv -s

@@ -6,7 +6,6 @@ integration: Mark integration tests
 high: High Priority
 medium: Medium Priority
 low: Low Priority
-run: Select tests
 """
 
 def pytest_configure(config):
