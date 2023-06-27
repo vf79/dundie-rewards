@@ -18,7 +18,13 @@ jobs:
       matrix:
         python-version: ["3.9", "3.10"]
         os: [ubuntu-latest]
+
     runs-on: ${{matrix.os}}
+
+    permissions:
+      checks: write
+      pull-requests: write
+
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
@@ -27,4 +33,13 @@ jobs:
       - name: Install Project
         run: pip install '.[test]'
       - name: Run tests
-        run: pytest -vv tests integration
+        run: make testci
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        id: test-results
+        if: always()
+        with:
+          files: test-results/**/*.xml
+          check_name: Test Result (Python ${{matrix.python-version}})
+      - name: Conclusion
+        run: echo "Conclusion is ${{ fromJSON( steps.test-results.outputs.json ).conclusion }}"
