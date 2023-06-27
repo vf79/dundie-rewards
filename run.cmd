@@ -52,7 +52,7 @@ goto end
 :test-run
     echo "Executando testes selecionados..."
     ::pytest tests\ -m run -vv --cov=%name%
-    pytest -vv -s -m "run"
+    pytest -vv -s -m "%2"
     ::coverage html
 goto end
 
@@ -75,7 +75,7 @@ goto end
     echo "install-test - Instala dependências de testes"
     echo "test - Executa testes"
     echo "test-debug - Executa testes com debub"
-    echo "test-run - Executa testes com mark run"
+    echo "test-run <mark> - Executa testes definindo marcador"
     echo "watch - Executa teste usando pytest-watch"
     echo "virtualenv - Cria a virtualenv do python"
 
