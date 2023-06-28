@@ -1,6 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
+
 def read(*paths):
     """Read the contents of a text file safely.
     >>> read("project_name", "VERSION")
@@ -21,23 +22,24 @@ def read_requirements(path):
         if not line.startswith(('#', 'git+', '"', '-'))
     ]
 
+
 setup(
     name="dundie",
     version="0.1.0",
     description="Reward Point System for Dunder Mifflin",
     long_description=read("README.md"),
-    long_description_content_type = "text/markdown",
+    long_description_content_type="text/markdown",
     author="Valmir Franca",
     python_requires=">=3.9",
     packages=find_packages(),
     entry_points={
-        "console_scripts":[
-            "dundie = dundie.__main__:main"
+        "console_scripts": [
+            "dundie=dundie.__main__:main"
         ]
     },
     install_requires=read_requirements("requirements.txt"),
     extras_require={
-        "dev":read_requirements("requirements.dev.txt"),
-        "test":read_requirements("requirements.test.txt"),
+        "dev": read_requirements("requirements.dev.txt"),
+        "test": read_requirements("requirements.test.txt"),
     },
 )

@@ -9,3 +9,22 @@ testpaths = [
 [tool.flake8]
 exclude = [".venv","build"]
 max-line-lenght = 79
+
+[tool.black]
+line-length = 79
+target-version = ["py39"]
+exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.venv
+  | build
+  | dist
+  | migrations
+)/
+'''
+
+[tool.isort]
+profile = "black"
+src_paths = ["dundie", "test", "integration"]
+multi_line_output = 3

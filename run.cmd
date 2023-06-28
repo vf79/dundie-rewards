@@ -4,10 +4,11 @@ chcp 65001
 set name="dundie"
 
 if "%1"=="--clean" goto clean
-if "%1"=="--lint" goto lint
+if "%1"=="--formate" goto formate
 if "%1"=="--install" goto install
 if "%1"=="--install-dev" goto install-dev
 if "%1"=="--install-test" goto install-test
+if "%1"=="--lint" goto lint
 if "%1"=="--test" goto test
 if "%1"=="--test-ci" goto test-ci
 if "%1"=="--test-debug" goto test-debug
@@ -22,6 +23,12 @@ goto help
     for /r . %%f in (*.pyc) do @if exist "%%f" del "%%f"
     for /d /r . %%d in (__pycache__, *.egg-info, .pytest_cache) do @if exist "%%d" rd /s /q "%%d"
     rd /s /q build
+goto end
+
+:formate
+    echo "Formatando codigo..."
+    .\.venv\Scripts\python -m isort dundie tests integration
+    .\.venv\Scripts\python -m black dundie tests integration
 goto end
 
 :install
