@@ -1,7 +1,7 @@
 import pytest
-from tests.constants import PEOPLE_FILE
 
 from dundie.core import load
+from tests.constants import PEOPLE_FILE
 
 
 @pytest.mark.unit
