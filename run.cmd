@@ -3,6 +3,7 @@
 chcp 65001
 set name="dundie"
 
+
 if "%1"=="--clean" goto clean
 if "%1"=="--formate" goto formate
 if "%1"=="--install" goto install
@@ -65,10 +66,8 @@ goto end
 
 :test-run
     echo "Executando testes selecionados..."
-    if not "%2" goto
-    ::pytest tests\ -m run -vv --cov=%name%
+    if [%2]==[] goto test
     pytest -vv -s -m "%2"
-    ::coverage html
 goto end
 
 :virtualenv

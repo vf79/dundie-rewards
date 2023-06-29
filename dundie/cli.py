@@ -1,4 +1,5 @@
-import pkg_resources
+from importlib.metadata import version
+
 import rich_click as click
 from rich.console import Console
 from rich.table import Table
@@ -18,7 +19,7 @@ click.rich_click.ERRORS_SUGGESTION = (
 
 
 @click.group()
-@click.version_option(pkg_resources.get_distribution("dundie").version)
+@click.version_option(version("dundie"))
 def main():
     """Dunder Mifflin Rewards System.
 

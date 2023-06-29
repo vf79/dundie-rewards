@@ -25,7 +25,7 @@ def read_requirements(path):
 
 setup(
     name="dundie",
-    version="0.1.0",
+    version="0.1.1",
     description="Reward Point System for Dunder Mifflin",
     long_description=read("README.md"),
     long_description_content_type="text/markdown",
