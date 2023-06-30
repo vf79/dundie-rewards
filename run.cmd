@@ -11,11 +11,9 @@ if "%1"=="--install-dev" goto install-dev
 if "%1"=="--install-test" goto install-test
 if "%1"=="--lint" goto lint
 if "%1"=="--test" goto test
-if "%1"=="--test-ci" goto test-ci
 if "%1"=="--test-debug" goto test-debug
 if "%1"=="--test-run" goto test-run
 if "%1"=="--virtualenv" goto virtualenv
-if "%1"=="--watch" goto watch
 
 goto help
 
@@ -43,7 +41,7 @@ goto end
 goto end
 
 :install-test
-    echo "Instalando dependências de testes..."
+    echo "Instalandorun  dependências de testes..."
     .\.venv\Scripts\python -m pip install -e ".[test]"
 goto end
 
@@ -55,7 +53,7 @@ goto end
 :test
     echo "Executando testes..."
     ::pytest tests\ -vv --cov=%name%
-    pytest -vv -s
+    pytest -vv -n 3 -s
     ::coverage html
 goto end
 
@@ -67,17 +65,12 @@ goto end
 :test-run
     echo "Executando testes selecionados..."
     if [%2]==[] goto test
-    pytest -vv -s -m "%2"
+    pytest -vv -n 3 -s -m "%2"
 goto end
 
 :virtualenv
     echo "Instalando virtualenv..."
     .\.venv\Scripts\python -m venv .venv --upgrade-deps
-goto end
-
-:watch
-    echo "Pytest Watch..."
-    ptw -- -vv -s tests\
 goto end
 
 :help
@@ -91,8 +84,7 @@ goto end
     echo "test - Executa testes"
     echo "test-ci - Executa testes e gera relatório junit.xml"
     echo "test-debug - Executa testes com debub"
-    echo "test-run - Executa testes com mark run"
-    echo "watch - Executa teste usando pytest-watch"
+    echo "test-run <mark> - Executa testes com mark run"
     echo "virtualenv - Cria a virtualenv do python"
 
 :end

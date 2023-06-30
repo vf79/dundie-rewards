@@ -1,0 +1,58 @@
+{
+    "people": {
+        "jim@dumdlermifflin.example.com": {
+            "name": "Jim Halpert",
+            "dept": "Sales",
+            "role": "Salesman"
+        },
+        "schrute@dundlermifflin.example.com": {
+            "name": "Dwight Schrute",
+            "dept": "Sales",
+            "role": "Manager"
+        },
+        "lewis@dundlermifflin.example.com": {
+            "name": "Gabe Lewis",
+            "dept": "C-Level",
+            "role": "CEO"
+        }
+    },
+    "balance": {
+        "jim@dumdlermifflin.example.com": 500,
+        "schrute@dundlermifflin.example.com": 100,
+        "lewis@dundlermifflin.example.com": 100
+    },
+    "movement": {
+        "jim@dumdlermifflin.example.com": [
+            {
+                "date": "2023-07-03T09:53:11.128085",
+                "actor": "system",
+                "value": 500
+            }
+        ],
+        "schrute@dundlermifflin.example.com": [
+            {
+                "date": "2023-07-03T09:53:15.216435",
+                "actor": "system",
+                "value": 100
+            }
+        ],
+        "lewis@dundlermifflin.example.com": [
+            {
+                "date": "2023-07-03T09:53:19.296656",
+                "actor": "system",
+                "value": 100
+            }
+        ]
+    },
+    "user": {
+        "jim@dumdlermifflin.example.com": {
+            "password": "3wJeWHk7"
+        },
+        "schrute@dundlermifflin.example.com": {
+            "password": "cyHpEhNt"
+        },
+        "lewis@dundlermifflin.example.com": {
+            "password": "05OcnlNu"
+        }
+    }
+}

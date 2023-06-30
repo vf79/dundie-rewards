@@ -14,7 +14,7 @@ def get_logger(logfile="dundie.log"):
     """Returns a configured logger"""
     fh = handlers.RotatingFileHandler(
         logfile,
-        maxBytes=1048576,
+        maxBytes=1000000,
         backupCount=14,
     )
     fh.setLevel(LOG_LEVEL)

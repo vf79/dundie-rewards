@@ -1,4 +1,5 @@
 pytest
+pytest-xdist
 flake8
 pyproject-flake8
 black
