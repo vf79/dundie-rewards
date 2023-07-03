@@ -61,9 +61,9 @@ def set_initial_balance(db, pk, person):
     add_movement(db, pk, value)
 
 
-def add_movement(db, pk, value):
+def add_movement(db, pk, value, actor="system"):
     movements = db["movement"].setdefault(pk, [])
     movements.append(
-        {"date": datetime.now().isoformat(), "actor": "system", "value": value}
+        {"date": datetime.now().isoformat(), "actor": actor, "value": value}
     )
     db["balance"][pk] = sum([item["value"] for item in movements])
