@@ -1,3 +1,4 @@
+"""Settings."""
 import os
 
 SMTP_HOST = "localhost"

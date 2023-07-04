@@ -4,6 +4,7 @@ ipdb
 
 # Code Quality
 flake8
+flake8-docstrings
 pyproject-flake8
 black
 isort

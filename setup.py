@@ -1,9 +1,11 @@
+"""Setup for dundie."""
 from setuptools import setup, find_packages
 import os
 
 
 def read(*paths):
     """Read the contents of a text file safely.
+
     >>> read("project_name", "VERSION")
     '0.1.0'
     >>> read("README.md")
@@ -15,7 +17,7 @@ def read(*paths):
 
 
 def read_requirements(path):
-    """Return a list of requirements from a text file"""
+    """Return a list of requirements from a text file."""
     return [
         line.strip()
         for line in read(path).split("\n")

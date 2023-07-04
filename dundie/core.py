@@ -1,4 +1,4 @@
-"""Core module of dundie"""
+"""Core module of dundie."""
 import os
 from csv import reader
 
@@ -9,7 +9,8 @@ log = get_logger()
 
 
 def load(filepath):
-    """Loads data from filepath to the database
+    """Load data from filepath to the database.
+
     Exemplo de doctest
     Para executar: python -m doctest -v dundie/core.py
     >>> len(load('assets/people.csv'))
@@ -41,9 +42,9 @@ def load(filepath):
 
 
 def read(**query):
-    """Read data from db and firlters using query
+    """Read data from db and firlters using query.
 
-    read(email="joe@doe.com")
+    - read(email="joe@doe.com")
     """
     db = connect()
     return_data = []
@@ -68,7 +69,7 @@ def read(**query):
 
 
 def add(value, **query):
-    """Add value to each record on query"""
+    """Add value to each record on query."""
     people = read(**query)
     if not people:
         raise RuntimeError("Not Found")
