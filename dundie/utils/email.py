@@ -1,3 +1,4 @@
+"""Email module."""
 import re
 import smtplib
 from email.mime.text import MIMEText
@@ -11,11 +12,12 @@ regex = r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b"
 
 
 def check_valid_email(address):
-    """Return True if email is valid"""
+    """Check is valid email."""
     return bool(re.fullmatch(regex, address))
 
 
 def send_email(from_, to, subject, text):
+    """Send email."""
     if not isinstance(to, list):
         to = [to]
     try:

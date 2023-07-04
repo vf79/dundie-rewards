@@ -1,3 +1,4 @@
+"""Test core module."""
 import pytest
 
 from dundie.core import load
@@ -6,13 +7,13 @@ from tests.constants import PEOPLE_FILE
 
 @pytest.mark.unit
 @pytest.mark.high
-def test_load_positive_has_2_people():
-    """Test load function"""
+def test_load_positive_has_n_people():
+    """Test load function has correct n peoples."""
     assert len(load(PEOPLE_FILE)) == 3
 
 
 @pytest.mark.unit
 @pytest.mark.high
-def test_load_positive_first_name_starts_with_j():
-    """Test load function"""
+def test_load_positive_name():
+    """Test load function correct name."""
     assert load(PEOPLE_FILE)[0]["name"] == "Jim Halpert"

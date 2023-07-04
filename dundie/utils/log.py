@@ -1,3 +1,4 @@
+"""Logger module."""
 import logging
 import os
 from logging import handlers
@@ -11,7 +12,7 @@ fmt = logging.Formatter(
 
 
 def get_logger(logfile="dundie.log"):
-    """Returns a configured logger"""
+    """Set a default configured logger."""
     fh = handlers.RotatingFileHandler(
         logfile,
         maxBytes=1000000,
