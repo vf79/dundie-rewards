@@ -57,7 +57,7 @@ jobs:
       - name: Install Project
         run: pip install '.[test]'
       - name: Run tests
-        run: pytest -v --junitxml=test-results/test_result.xml
+        run: pytest -v --forked --junitxml=test-results/test_result.xml
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
         id: test-results

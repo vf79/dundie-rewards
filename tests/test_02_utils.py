@@ -22,7 +22,6 @@ def test_negative_check_valid_email(address):
     assert check_valid_email(address) is False
 
 
-@pytest.mark.run
 @pytest.mark.unit
 def test_generate_simple_password():
     """Test generation of random simple passwords

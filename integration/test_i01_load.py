@@ -2,18 +2,20 @@ import pytest
 from click.testing import CliRunner
 
 from dundie.cli import load, main
-from integration.constants import PEOPLE_FILE
+from dundie.utils.log import get_logger
+from tests.constants import PEOPLE_FILE
 
 cmd = CliRunner()
+log = get_logger()
 
 
 @pytest.mark.integration
 @pytest.mark.medium
 def test_load_positive_call_load_command():
     """test command load"""
-    # TODO: Verify error FILEPATH when run pytest developer machine
-    out = cmd.invoke(load, PEOPLE_FILE)
-    assert (len(out.output) == 632) or (len(out.output) == 1496)
+    out = cmd.invoke(load, [PEOPLE_FILE])
+    assert "Dunder Mifflin Associates" in out.output
+    assert out.exit_code == 0
 
 
 @pytest.mark.integration
@@ -21,6 +23,6 @@ def test_load_positive_call_load_command():
 @pytest.mark.parametrize("wrong_command", ["loady", "carrega", "run", "start"])
 def test_load_negative_call_load_command_with_wrong_params(wrong_command):
     """test command load"""
-    out = cmd.invoke(main, wrong_command, PEOPLE_FILE)
+    out = cmd.invoke(main, [wrong_command, PEOPLE_FILE])
     assert out.exit_code != 0
     assert f"No such command '{wrong_command}'." in out.output
