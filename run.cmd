@@ -4,7 +4,9 @@ chcp 65001
 set name="dundie"
 
 
+if "%1"=="--build" goto build
 if "%1"=="--clean" goto clean
+if "%1"=="--docs" goto docs
 if "%1"=="--formate" goto formate
 if "%1"=="--install" goto install
 if "%1"=="--install-dev" goto install-dev
@@ -17,11 +19,22 @@ if "%1"=="--virtualenv" goto virtualenv
 
 goto help
 
+:build
+    echo "Criando arquivos de empacotamento para distribuição..."
+    .\.venv\Scripts\python setup.py sdist bdist_wheel
+goto end
+
 :clean
+    set list-dirs=build dist site
     echo "Excluindo arquivos e diretorios desnecessários..."
     for /r . %%f in (*.pyc) do @if exist "%%f" del "%%f"
     for /d /r . %%d in (__pycache__, *.egg-info, .pytest_cache) do @if exist "%%d" rd /s /q "%%d"
-    rd /s /q build
+    for %%a  in (%list-dirs%) do @if exist "%%a" rd /s /q "%%a"
+goto end
+
+:docs
+    echo "Mkdocs criando arquivos de documentação..."
+    mkdocs build --clean
 goto end
 
 :formate
@@ -77,6 +90,7 @@ goto end
     echo "Utilize .\run.cmd --<parametro>"
     echo "Parâmetros:"
     echo "clean - Limpa o codigo"
+    echo "docs - Cria arquivos do site de documentação"
     echo "install - Instala dependências do projeto"
     echo "install-dev - Instala dependências de desenvolvimento"
     echo "install-test - Instala dependências de testes"
