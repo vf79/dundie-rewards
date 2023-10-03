@@ -1,5 +1,10 @@
 {
     "people": {
+        "ben@dumdlermifflin.example.com":{
+            "name": "Ben Sulivan",
+            "dept": "Sales",
+            "role": "Salesman"
+        },
         "jim@dumdlermifflin.example.com": {
             "name": "Jim Halpert",
             "dept": "Sales",
