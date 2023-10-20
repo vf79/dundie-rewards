@@ -32,7 +32,7 @@ setup(
     long_description=read("README.md"),
     long_description_content_type="text/markdown",
     author="Valmir Franca",
-    python_requires=">=3.9",
+    python_requires=">=3.10",
     packages=find_packages(include=["dundie", "tests"]),
     include_package_data=True,
     entry_points={
