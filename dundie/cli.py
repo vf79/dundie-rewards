@@ -26,6 +26,8 @@ def main():
     """Dunder Mifflin Rewards System.
 
     This cli application controls DM rewards.
+    - admins can load information to the people database and assign points.
+    - users can view reports and transfer points.
     """
 
 
@@ -57,7 +59,7 @@ def load(filepath):
 @click.option("--email", required=False)
 @click.option("--output", default=None)
 def show(output, **query):
-    """Show information about users."""
+    """Show information about users or dept."""
     result = core.read(**query)
 
     if not result:
