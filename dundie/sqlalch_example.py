@@ -7,8 +7,7 @@ from sqlalchemy import (
     create_engine,
     select,
 )
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import Session, relationship
+from sqlalchemy.orm import Session, declarative_base, relationship
 
 Base = declarative_base()
 

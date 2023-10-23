@@ -9,7 +9,6 @@ from sqlmodel import (
     create_engine,
     select,
 )
-
 # Base (declarative_base)
 # BaseModel (pydantic)
 
