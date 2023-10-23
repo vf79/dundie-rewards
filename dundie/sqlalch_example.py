@@ -7,13 +7,10 @@ from sqlalchemy import (
     create_engine,
     select,
 )
-from sqlalchemy.orm import DeclarativeBase, Session, relationship
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import Session, relationship
 
-
-class Base(DeclarativeBase):
-    """Base class."""
-
-    pass
+Base = declarative_base()
 
 
 class Person(Base):
@@ -73,4 +70,4 @@ with Session(engine) as session:
     stmt = select(Balance)
     result = session.execute(stmt)
     for row in result:
-        print(row.index(1))
+        print(row)
