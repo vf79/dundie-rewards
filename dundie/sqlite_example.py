@@ -1,11 +1,12 @@
+"""SQLITE examples."""
 import sqlite3
 
 con = sqlite3.connect("sql_example.db")
 con.execute("PRAGMA foreign_keys = ON;")
 
 # instruction ="""\
-# INSERT INTO person (name, dept, role, email)
-# VALUES ('Dwight Schrute', 'Sales', 'Manager', 'schrute@dundlermifflin.example.com');
+# INSERT INTO person (name, dept, role, email) VALUES('Dwight Schrute','Sales',
+# 'Manager','schrute@dundlermifflin.example.com');
 # """
 #
 # con.execute(instruction)
@@ -32,4 +33,4 @@ for row in result:
     # con.execute(instruction, row)
     print(row)
 
-#con.commit()
+# con.commit()

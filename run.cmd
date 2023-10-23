@@ -54,7 +54,7 @@ goto end
 goto end
 
 :install-test
-    echo "Instalandorun  dependências de testes..."
+    echo "Instalando dependências de testes..."
     .\.venv\Scripts\python -m pip install -e ".[test]"
 goto end
 
