@@ -8,6 +8,19 @@ from rich.table import Table
 
 from dundie import core
 
+# from sqlalchemy.exc import SAWarning
+# from sqlmodel.sql.expression import Select, SelectOfScalar
+
+
+# import warnings
+
+
+# SelectOfScalar.inherit_cache = True  # type: ignore
+# Select.inherit_cache = True  # type: ignore
+#
+# warnings.filterwarnings("ignore", category=SAWarning)
+
+
 click.rich_click.USE_RICH_MARKUP = True
 click.rich_click.USE_MARKDOWN = True
 click.rich_click.SHOW_ARGUMENTS = True
@@ -21,7 +34,7 @@ click.rich_click.ERRORS_SUGGESTION = (
 
 
 @click.group()
-@click.version_option(version("dundie"))
+@click.version_option(version)
 def main():
     """Dunder Mifflin Rewards System.
 
@@ -42,7 +55,7 @@ def load(filepath):
     - Loads to database
     """
     table = Table(title="Dunder Mifflin Associates")
-    headers = ["name", "dept", "role", "created", "e-mail"]
+    headers = ["email", "name", "dept", "role", "currency", "created"]
     for header in headers:
         table.add_column(header, style="green")
 
@@ -62,19 +75,21 @@ def show(output, **query):
     """Show information about users or dept."""
     result = core.read(**query)
 
-    if not result:
-        print("Nothing to show")
-
     if output:
         with open(output, "w") as output_file:
             output_file.write(json.dumps(result))
 
     table = Table(title="Dunder Mifflin Report")
-    for key in result[0]:
-        table.add_column(key.title(), style="green")
+    if not result:
+        table.add_column("Result", style="green")
+        table.add_row("Nothing value")
 
-    for person in result:
-        table.add_row(*[str(value) for value in person.values()])
+    else:
+        for key in result[0]:
+            table.add_column(key.title().replace("_", " "), style="green")
+
+        for person in result:
+            table.add_row(*[str(value) for value in person.values()])
 
     console = Console()
     console.print(table)
