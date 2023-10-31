@@ -1,95 +1,90 @@
 """Models Class."""
-import json
-from abc import ABC
-from dataclasses import dataclass
 from datetime import datetime
-from decimal import Decimal
+from typing import Optional
 
-from dundie.database import connect
+from pydantic import condecimal, validator
+from sqlmodel import Field, Relationship, SQLModel
+
 from dundie.utils.email import check_valid_email
+from dundie.utils.user import generate_simple_password
 
 
 class InvalidEmailError(Exception):
     """Extends exceptions."""
 
-    ...
+    pass
 
 
-class Serializable(ABC):
-    """Serializable class."""
+class Person(SQLModel, table=True):
+    """Person model class."""
 
-    def dict(self):
-        """Return dict representation."""
-        return vars(self)
+    id: Optional[int] = Field(default=None, primary_key=True, index=True)
+    email: str = Field(nullable=False, index=True)
+    name: str = Field(nullable=False)
+    dept: str = Field(nullable=False, index=True)
+    role: str = Field(nullable=False)
+    currency: str = Field(default="USD")
 
+    balance: "Balance" = Relationship(back_populates="person")
+    movement: "Movement" = Relationship(back_populates="person")
+    user: "User" = Relationship(back_populates="person")
 
-@dataclass
-class Person(Serializable):
-    """Person Object."""
+    @validator("email")
+    def validate_email(cls, v: str) -> str:
+        """Validate email."""
+        if not check_valid_email(v):
+            raise InvalidEmailError(f"Invalid email for {v!r}")
+        return v
 
-    pk: str
-    name: str
-    dept: str
-    role: str
-
-    def __post_init__(self):
-        """Validate values."""
-        if not check_valid_email(self.pk):
-            raise InvalidEmailError(
-                f"Email is invalid for {self} - {self.pk!r}"
-            )
-
-    def __str__(self):
-        """Return string representation."""
+    def __str__(self) -> str:
+        """View formated person."""
         return f"{self.name} - {self.role}"
 
 
-@dataclass
-class Balance(Serializable):
-    """Balance Object."""
+class Balance(SQLModel, table=True):
+    """Balance model class."""
 
-    person: Person
-    value: Decimal
+    id: Optional[int] = Field(default=None, primary_key=True, index=True)
+    person_id: int = Field(
+        foreign_key="person.id", sa_column_kwargs={"unique": True}
+    )
+    value: condecimal(decimal_places=3) = Field(default=0)
 
-    def dict(self):
-        """Overwrite method dict."""
-        return {"person": self.person.pk, "balance": str(self.value)}
+    person: Person = Relationship(back_populates="balance")
 
+    class Config:
+        """Config subclass."""
 
-@dataclass
-class Movement(Serializable):
-    """Movement Object."""
-
-    person: Person
-    date: datetime
-    actor: str
-    value: Decimal
-
-    # def dict(self):
-    #    return {
-    #        Definir os valores para person, date
-    #        actor e value
-    #    }
+        json_encoders = {Person: lambda p: p.pk}
 
 
-db = connect()
+class Movement(SQLModel, table=True):
+    """Movement model class."""
 
-for pk, data in db["people"].items():
-    p = Person(pk, **data)
+    id: Optional[int] = Field(default=None, primary_key=True, index=True)
+    person_id: int = Field(foreign_key="person.id")
+    actor: str = Field(nullable=False, index=True)
+    value: condecimal(decimal_places=3) = Field(default=0)
+    date: datetime = Field(default_factory=lambda: datetime.now())
+
+    person: Person = Relationship(back_populates="movement")
+
+    class Config:
+        """Config subclass."""
+
+        json_encoders = {Person: lambda p: p.pk}
 
 
-print(p)
-# print(json.dumps(vars(p)))
-print(json.dumps(p.dict()))
+class User(SQLModel, table=True):
+    """User model class."""
 
-balance = Balance(person=p, value=Decimal(100))
-# print(json.dumps(vars(balance)))
-print(json.dumps(balance.dict()))
+    id: Optional[int] = Field(default=None, primary_key=True, index=True)
+    person_id: int = Field(foreign_key="person.id")
+    password: str = Field(default_factory=generate_simple_password)
 
+    person: Person = Relationship(back_populates="user")
 
-""" Json serialize
-#int, float,
-# bool True -> true
-# None -> null
-#{'key'} -> {"Key"}
-# [], () -> []"""
+    class Config:
+        """Config subclass."""
+
+        json_encoders = {Person: lambda p: p.pk}
