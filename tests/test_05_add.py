@@ -1,42 +1,67 @@
 """Test function in database."""
 import pytest
 
-from dundie.core import add
-from dundie.database import add_person, commit, connect
+from dundie.core import add, load, read
+from dundie.database import get_session
+from dundie.models import Person
+from dundie.utils.db import add_person
+from tests.constants import PEOPLE_FILE
 
 
-@pytest.mark.run
 @pytest.mark.unit
 def test_add_movement():
     """Test add movement."""
-    pk = "joe@doe.com"
-    data = {
-        "name": "Joe Doe",
-        "role": "Salesman",
-        "dept": "Sales",
-        "active": True,
-    }
-    db = connect()
-    _, created = add_person(db, pk, data)
-    assert created is True
-    commit(db)
+    with get_session() as session:
+        data = {
+            "name": "Joe Doe",
+            "role": "Salesman",
+            "dept": "Sales",
+            "email": "joe@doe.com",
+        }
+        joe, created = add_person(session, Person(**data))
+        assert created is True
 
-    pk = "jim@doe.com"
-    data = {
-        "name": "Jim Doe",
-        "role": "CEO",
-        "dept": "Manager",
-        "active": True,
-    }
-    _, created = add_person(db, pk, data)
-    assert created is True
-    commit(db)
+        data = {
+            "name": "Jim Doe",
+            "role": "Manager",
+            "dept": "Management",
+            "email": "jim@doe.com",
+        }
+        jim, created = add_person(session, Person(**data))
+        assert created is True
 
-    db = connect()
+        session.commit()
 
-    add(-30, email="joe@doe.com")
-    add(90, dept="Manager")
+        add(-30, email="joe@doe.com")
+        add(90, dept="Management")
+        session.refresh(joe)
+        session.refresh(jim)
 
-    db = connect()
-    assert db["balance"]["joe@doe.com"] == 470
-    assert db["balance"]["jim@doe.com"] == 590
+        assert joe.balance[0].value == 470
+        assert jim.balance[0].value == 190
+
+
+@pytest.mark.unit
+def test_add_balance_for_dept():
+    """Test add balance for dept."""
+    load(PEOPLE_FILE)
+    original = read(dept="Sales")
+
+    add(100, dept="Sales")
+
+    modified = read(dept="Sales")
+    for index, person in enumerate(modified):
+        assert person["balance"] == original[index]["balance"] + 100
+
+
+@pytest.mark.unit
+def test_add_balance_for_person():
+    """Test add balance for person."""
+    load(PEOPLE_FILE)
+    original = read(email="jim@dumdlermifflin.example.com")
+
+    add(-30, email="jim@dumdlermifflin.example.com")
+
+    modified = read(email="jim@dumdlermifflin.example.com")
+    for index, person in enumerate(modified):
+        assert person["balance"] == original[index]["balance"] - 30

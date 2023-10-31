@@ -2,34 +2,34 @@
 import pytest
 
 from dundie.core import read
-from dundie.database import add_person, commit, connect
+from dundie.database import get_session
+from dundie.models import Person
+from dundie.utils.db import add_person
 
 
 @pytest.mark.unit
 def test_read_with_query():
     """Test read with query."""
-    pk = "joe@doe.com"
     data = {
         "name": "Joe Doe",
         "role": "Salesman",
         "dept": "Sales",
-        "active": True,
+        "email": "joe@doe.com",
     }
-    db = connect()
-    _, created = add_person(db, pk, data)
+    session = get_session()
+    _, created = add_person(session, Person(**data))
     assert created is True
 
-    pk = "jim@doe.com"
     data = {
         "name": "Jim Doe",
         "role": "CEO",
         "dept": "Manager",
-        "active": True,
+        "email": "jim@doe.com",
     }
 
-    _, created = add_person(db, pk, data)
+    _, created = add_person(session, Person(**data))
     assert created is True
-    commit(db)
+    session.commit()
 
     response = read()
     assert len(response) == 2
