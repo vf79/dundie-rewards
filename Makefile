@@ -4,10 +4,8 @@ install:
 	@echo "Installing for dev environment"
 	@.venv/bin/python -m pip install -e '.[dev]'
 
-
 virtualenv:
 	@.venv/bin/python -m pip -m venv .venv
-
 
 ipython:
 	@.venv/bin/ipython
@@ -20,11 +18,10 @@ formate:
 	@.venv/bin/black dundie tests integration
 
 test:
-	@.venv/bin/pytest -vv -s
+	@.venv/bin/pytest -vv -s --cov=dundie --forked
 
 watch:
-	@.venv/bin/ptw -- -vv -s tests/
-
+	@.venv/bin/ptw -- -vv -s tests/ --cov=dundie --forked
 
 clean:
 	@find ./ -name '*.pyc' -exec rm -f {} \;
