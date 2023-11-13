@@ -54,7 +54,7 @@ goto end
 goto end
 
 :install-test
-    echo "Instalandorun  dependências de testes..."
+    echo "Instalando dependências de testes..."
     .\.venv\Scripts\python -m pip install -e ".[test]"
 goto end
 
@@ -66,8 +66,9 @@ goto end
 :test
     echo "Executando testes..."
     ::pytest tests\ -vv --cov=%name%
-    pytest -vv -n 3 -s
-    ::coverage html
+    pytest tests\ -vv -n 3 -s --cov=%name%
+    coverage xml
+    coverage html
 goto end
 
 :test-debug
@@ -78,7 +79,9 @@ goto end
 :test-run
     echo "Executando testes selecionados..."
     if [%2]==[] goto test
-    pytest -vv -n 3 -s -m "%2"
+    pytest -vv -n 3 -s -m "%2" --cov=%name%
+    coverage xml
+    coverage html
 goto end
 
 :virtualenv
