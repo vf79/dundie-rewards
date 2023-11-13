@@ -8,6 +8,7 @@ from dundie.utils.db import add_person
 from tests.constants import PEOPLE_FILE
 
 
+@pytest.mark.esp
 @pytest.mark.unit
 def test_add_movement():
     """Test add movement."""
