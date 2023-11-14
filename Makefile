@@ -1,31 +1,43 @@
-.PHONY: install virtualenv ipython lint test watch clean
+.PHONY: install virtualenv ipython clean test pflake8 fmt lint watch docs docs-serve build
+
 
 install:
 	@echo "Installing for dev environment"
-	@.venv/bin/python -m pip install -e '.[dev]'
+	@.venv/bin/python -m pip install -e '.[test,dev]'
+
 
 virtualenv:
-	@.venv/bin/python -m pip -m venv .venv
+	@python -m venv .venv
+
 
 ipython:
 	@.venv/bin/ipython
 
+
 lint:
+	#@.venv/bin/mypy --ignore-missing-imports dundie
 	@.venv/bin/pflake8
 
-formate:
-	@.venv/bin/isort dundie tests integration
+fmt:
+	@.venv/bin/isort --profile=black -m 3 dundie tests integration
 	@.venv/bin/black dundie tests integration
 
 test:
-	@.venv/bin/pytest -vv -s --cov=dundie --forked
+	@.venv/bin/pytest -s --cov=dundie --forked
+	@.venv/bin/coverage xml
+	@.venv/bin/coverage html
 
 watch:
-	@.venv/bin/ptw -- -vv -s tests/ --cov=dundie --forked
+	# @.venv/bin/ptw
+	@ls **/*.py | entr pytest --cov=dundie --forked
+	@.venv/bin/coverage xml
+	@.venv/bin/coverage html
 
-clean:
+
+
+clean:            ## Clean unused files.
 	@find ./ -name '*.pyc' -exec rm -f {} \;
-	@find ./ -name '__pycache' -exec rm -f {} \;
+	@find ./ -name '__pycache__' -exec rm -rf {} \;
 	@find ./ -name 'Thumbs.db' -exec rm -f {} \;
 	@find ./ -name '*~' -exec rm -f {} \;
 	@rm -rf .cache
@@ -38,11 +50,19 @@ clean:
 	@rm -rf .tox/
 	@rm -rf docs/_build
 
+
 docs:
 	@mkdocs build --clean
+
 
 docs-serve:
 	@mkdocs serve
 
 build:
 	@python setup.py sdist bdist_wheel
+
+publish-test:
+	@twine upload --repository testpypi dist/*
+
+publish:
+	@twine upload dist/*

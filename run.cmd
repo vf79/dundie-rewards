@@ -25,11 +25,11 @@ goto help
 goto end
 
 :clean
-    set list-dirs=build dist site
+    set list-dirs=build dist site htmlcov __pycache__ *.egg-info, .pytest_cache
+    set list-files=*.pyc
     echo "Excluindo arquivos e diretorios desnecessários..."
-    for /r . %%f in (*.pyc) do @if exist "%%f" del "%%f"
-    for /d /r . %%d in (__pycache__, *.egg-info, .pytest_cache) do @if exist "%%d" rd /s /q "%%d"
-    for %%a  in (%list-dirs%) do @if exist "%%a" rd /s /q "%%a"
+    for /d /r . %%d in (%list-dirs%) do @if exist "%%d" rd /s /q "%%d"
+    for /r . %%f in (%list-files%) do @if exist "%%f" del "%%f"
 goto end
 
 :docs
@@ -67,7 +67,7 @@ goto end
     echo "Executando testes..."
     ::pytest tests\ -vv --cov=%name%
     pytest tests\ -vv -n 3 -s --cov=%name%
-    coverage xml
+    ::coverage xml
     coverage html
 goto end
 
@@ -80,26 +80,27 @@ goto end
     echo "Executando testes selecionados..."
     if [%2]==[] goto test
     pytest -vv -n 3 -s -m "%2" --cov=%name%
-    coverage xml
+    ::coverage xml
     coverage html
 goto end
 
 :virtualenv
     echo "Instalando virtualenv..."
-    .\.venv\Scripts\python -m venv .venv --upgrade-deps
+    python -m venv .venv --upgrade-deps
 goto end
 
 :help
     echo "Utilize .\run.cmd --<parametro>"
     echo "Parâmetros:"
+    echo "build - Empacota para distribuição"
     echo "clean - Limpa o codigo"
     echo "docs - Cria arquivos do site de documentação"
+    echo "formate - Formata o código"
     echo "install - Instala dependências do projeto"
     echo "install-dev - Instala dependências de desenvolvimento"
     echo "install-test - Instala dependências de testes"
     echo "lint - Verifica a qualidade do codigo escrito"
     echo "test - Executa testes"
-    echo "test-ci - Executa testes e gera relatório junit.xml"
     echo "test-debug - Executa testes com debub"
     echo "test-run <mark> - Executa testes com mark run"
     echo "virtualenv - Cria a virtualenv do python"
