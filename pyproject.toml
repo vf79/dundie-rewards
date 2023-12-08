@@ -13,7 +13,7 @@ source = 'https://github.com/vf79/dundie-rewards'
 dundie = "dundie.__main__:main"
 
 [build-system]
-requires = ["setuptools", "setuptools-scm"]
+requires = ["setuptools>=45", "setuptools_scm[toml]>=6.2"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
