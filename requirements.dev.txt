@@ -15,5 +15,5 @@ mkdocs
 # build
 wheel
 
-# Install project as editable
--e .
+# typing
+types-setuptools
