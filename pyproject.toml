@@ -20,9 +20,9 @@ build-backend = "setuptools.build_meta"
 packages = ["dundie", "tests"]
 
 [tool.setuptools.dynamic]
-readme = { file = ["README.md"]}
-dependencies = {file = "requirements.txt"}
+dependencies = { file = ["requirements.txt", "requirements.test.txt"] }
 
+readme = { file = ["README.md"] }
 [tool.setuptools_scm]
 write_to = "dundie/VERSION.txt"
 
