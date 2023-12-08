@@ -2,7 +2,7 @@
 name = "dundie"
 description = "Reward Point System for Dunder Mifflin"
 authors = [{ name = "Valmir Franca", email = "vf79@yahoo.com" }]
-requires-python = ">=3.11"
+requires-python = ">=3.10"
 license = { text = "MIT" }
 dynamic = ["version", "readme", "dependencies"]
 
