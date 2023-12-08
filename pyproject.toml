@@ -1,10 +1,38 @@
+[project]
+name = "dundie"
+description = "Reward Point System for Dunder Mifflin"
+authors = [{ name = "Valmir Franca", email = "vf79@yahoo.com" }]
+requires-python = ">=3.11"
+license = { text = "MIT" }
+dynamic = ["version", "readme", "dependencies"]
+
+[project.urls]
+source = 'https://github.com/vf79/dundie-rewards'
+
+[project.scripts]
+dundie = "dundie.__main__:main"
+
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["dundie"]
+
+[tool.setuptools.dynamic]
+readme = { file = ["README.md"]}
+dependencies = {file = "requirements.txt"}
+
+[tool.setuptools_scm]
+write_to = "dundie/VERSION.txt"
+
 [tool.pytest.ini_options]
 minversion = "6.0"
 addopts = "-ra -q"
-testpaths = ["tests","integration"]
+testpaths = ["tests", "integration"]
 
 [tool.flake8]
-exclude = [".venv","build", "migrations"]
+exclude = [".venv", "build", "migrations"]
 max-line-lenght = 79
 
 [tool.black]
