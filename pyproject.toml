@@ -4,7 +4,7 @@ description = "Reward Point System for Dunder Mifflin"
 authors = [{ name = "Valmir Franca", email = "vf79@yahoo.com" }]
 requires-python = ">=3.10"
 license = { text = "MIT" }
-dynamic = ["version", "readme", "dependencies"]
+dynamic = ["version", "readme", "dependencies", "optional-dependencies"]
 
 [project.urls]
 source = 'https://github.com/vf79/dundie-rewards'
@@ -17,12 +17,16 @@ requires = ["setuptools", "setuptools-scm"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
-packages = ["dundie", "tests"]
+packages = ["dundie"]
 
 [tool.setuptools.dynamic]
-dependencies = { file = ["requirements.txt", "requirements.test.txt"] }
+readme = { file = ["README.md"]}
+dependencies = { file = "requirements.txt" }
 
-readme = { file = ["README.md"] }
+[tool.setuptools.dynamic.optional-dependencies]
+dev = {file = "requirements.dev.txt"}
+test = {file = "requirements.test.txt"}
+
 [tool.setuptools_scm]
 write_to = "dundie/VERSION.txt"
 
